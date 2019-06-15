@@ -1,6 +1,7 @@
 import argparse
 import sys
-import glob, os
+import glob
+import os
 from batteries import ent
 from utilities import dir_path, ent_csv
 
