@@ -10,9 +10,14 @@ def dir_path(string):
 
 
 # take results of ent and returns csv of results
-def ent_csv(r):
-    return c
-
+def ent_csv(f, r):
+    with open('results/ent_results.csv', "w") as csvfile:
+        writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        writer.writerow(['File name', 'Entropy', 'Chi-score', 'Serial Correlation', 'P-val Z', 'P-val Chi', 'Monte Carlo'])
+        for i in range(len(f)):
+            a, b, c, d, e, g = r[i]
+            writer.writerow([f[i], a, b, c, d, e, g])
+        csvfile.close()
 
 # take results of ais-31 (non-fips) tests and returns csv of results
 def ais_csv(r):

@@ -1,0 +1,3 @@
+File name,Entropy,Chi-score,Serial Correlation,P-val Z,P-val Chi,Monte Carlo
+/home/dhurleysmith/Desktop/ent/test/test_routines.py,5.106327364039159,16172.262429463077,0.4355255847058226,1,0.9999999999984466,4.0
+/home/dhurleysmith/Desktop/ent/test/random.dat,7.999982186575908,259.03110351562486,-0.00029560958073564567,1,0.9999999999984466,3.1398777541647926

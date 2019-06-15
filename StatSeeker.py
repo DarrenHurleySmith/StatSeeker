@@ -14,22 +14,19 @@ def main(argv):
     opts.add_argument("--path", type=dir_path, help="one or more files to process")
 
     args = opts.parse_args()
+    f = []
+    e = []
 
-    os.chdir(args.path)
+    for root, dir, files in os.walk(args.path):
+        for file in files:
+            fs = os.stat(root+file)
+            if fs.st_size >= 1024:
+                f.append(root+file)
+                e.append(ent(root+file))
 
-    ent_results = []
-    files = []
-
-    for file in glob.glob("*.*"):
-        fs = os.stat(file)
-        if fs.st_size >= 1024:
-            files.append(file)
-            ent_results.append(ent(file))
-
-    e_csv = ent_csv(ent_results)
-
-    print(files)
-    print(ent_results)
+    # print(f)
+    # print(e)
+    ent_csv(f, e)
 
 
 if __name__ == '__main__':
