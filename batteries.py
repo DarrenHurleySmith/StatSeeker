@@ -67,16 +67,15 @@ def fips140(fn, ver, params):
 
 # ais31 tests - borrows fips-1-140 mode tests from the fips battery for procedureA
 def ais31(fn):
-    c = []
     t0 = 0
     t1 = []
     t2 = []
     t3 = []
     t4 = []
     t5 = []
-    t6 = []
-    t7 = []
-    t8 = []
+    t6 = 0
+    t7 = 0
+    t8 = 0
 
     fs = os.stat(fn)
 
@@ -85,7 +84,7 @@ def ais31(fn):
             a = seq.read(1038216)
             b = seq.read(8000000)
     else:
-        return c
+        return 0, 0, 0, 0, 0, 0, 0, 0, 0
 
 
     # procedureA
@@ -101,6 +100,9 @@ def ais31(fn):
         t5.append(test5(s))
 
     # procedureB
+    t6 = test6a(b[:12500])
+    t7, count = test7(b[12500:])
+    t8 = test8(b[12500+count:])
 
-    return c
+    return t0, t1, t2, t3, t4, t5, t6, t7, t8
 
