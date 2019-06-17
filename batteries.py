@@ -81,8 +81,7 @@ def ais31(fn):
             a = seq.read(1038216)
             b = seq.read(8000000)
     else:
-        return 0, 0, 0, 0, 0, 0, 0, 0, 0
-
+        return [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     # procedureA
     t0 = test0(a[:393216])
@@ -101,5 +100,5 @@ def ais31(fn):
     t7, count = test7(b[12500:])
     t8 = test8(b[12500+count:])
 
-    return t0, t1, t2, t3, t4, t5, t6, t7, t8
+    return [t0, t1, t2, t3, t4, t5, t6, t7, t8]
 

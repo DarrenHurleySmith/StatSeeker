@@ -1,6 +1,6 @@
 import argparse
 import os
-from batteries import ent, fips140
+from batteries import ent, fips140, ais31
 from utilities import dir_path, ent_csv, fips_csv
 
 
@@ -31,6 +31,9 @@ def main():
                 r, c = fips140(path, 2, 100)
                 fips2results.append(r)
                 fips2stats.append(c)
+
+                c = ais31(path)
+                print(c)
 
     ent_csv(file_names, ent_results)
     fips_csv(file_names, fips2results, fips2stats)
