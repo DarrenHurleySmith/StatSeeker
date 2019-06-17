@@ -29,8 +29,8 @@ def main():
                 ent_results.append(ent(path))
 
                 r, c = fips140(path, 2, 100)
-                fips2results.append(r)
-                fips2stats.append(c)
+                fips2results += r
+                fips2stats += c
 
     ent_csv(file_names, ent_results)
     fips_csv(file_names, fips2results, fips2stats)

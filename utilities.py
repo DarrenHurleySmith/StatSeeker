@@ -33,7 +33,7 @@ def fips_csv(paths, results, stats):
         writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         writer.writerow(HEADER_fips)
         for i in range(len(paths)):
-            print(paths[i])
+            print(results[i])
             monobit, poker, run, longrun, continuous = results[i]
             writer.writerow([paths[i], monobit, poker, run, longrun, continuous])
         csvfile.close()
@@ -42,8 +42,8 @@ def fips_csv(paths, results, stats):
         writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         writer.writerow(HEADER_fips)
         for i in range(len(paths)):
-            monobit, poker, run, longrun, continuous = stats[i]
-            writer.writerow([paths[i], monobit, poker, run, longrun, continuous])
+            monobit, poker, run, longrun = stats[i]
+            writer.writerow([paths[i], monobit, poker, run, longrun])
         csvfile.close()
 
 # merges all csvs passed in as a list of csv names (default filenames only atm)

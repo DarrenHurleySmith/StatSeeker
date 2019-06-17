@@ -29,9 +29,12 @@ def fips140(fn, ver, params):
             params = int(fs.st_size/2500)
             print(params)
 
+        if params == 0:
+            return ['N', 'N', 'N', 'N', 'N'], [0, 0, 0, 0]
+
         for i in range(params):
-            r = []
             stat = []
+            r = []
 
             s = seq.read(2500)
 
