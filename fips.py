@@ -102,13 +102,14 @@ def longruns(s, v):
         chkval = 26
 
     for i in b:
-        if i == '0':
+        # print(i)
+        if i is False:
             c[1] = 0
             c[0] = c[0] + 1
             if c[0] > chkval:
                 res = False
                 break
-        elif i == '1':
+        elif i is True:
             c[0] = 0
             c[1] = c[1] + 1
             if c[1] > chkval:
