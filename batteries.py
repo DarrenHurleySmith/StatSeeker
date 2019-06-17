@@ -2,16 +2,16 @@ from ent import readdata, entropy, pearsonchisquare, correlation, poz, pochisq, 
 
 
 # Ent (John Walker) tests called from the module developed by RSmith
-def ent(f):
-    data, cnts = readdata(f)
-    e = entropy(cnts)
-    p = pearsonchisquare(cnts)
-    c = correlation(data)
-    po = poz(p)
-    pchi = pochisq(po*100-50)
-    m = monte_carlo(data)
+def ent(path):
+    data, cnts = readdata(path)
+    res_entropy = entropy(cnts)
+    res_chi_score = pearsonchisquare(cnts)
+    res_serial_correlation = correlation(data)
+    res_p_val_z = poz(res_chi_score)
+    res_p_val_chi = pochisq(res_p_val_z*100-50)
+    res_monte_carlo = monte_carlo(data)
 
-    return e, p, c, po, pchi, m
+    return res_entropy, res_chi_score, res_serial_correlation, res_p_val_z, res_p_val_chi, res_monte_carlo
 
 
 # FIPS140-1 tests, called from the appropriate module
