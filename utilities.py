@@ -29,21 +29,54 @@ def ais_csv(r):
 
 # takes results  of fips140-2 and returns results csv
 def fips_csv(paths, results, stats):
-    with open('results/fips_results.csv', "w") as csvfile:
+    with open('results/fips_results.csv', 'w') as csvfile:
+        monobits = []
+        pokers = []
+        runs = []
+        longruns = []
+        continuouss = []
         writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         writer.writerow(HEADER_fips)
-        for i in range(len(paths)):
-            print(results[i])
-            monobit, poker, run, longrun, continuous = results[i]
-            writer.writerow([paths[i], monobit, poker, run, longrun, continuous])
+        for i in range(len(results)):
+            monobits.append([])
+            pokers.append([])
+            runs.append([])
+            longruns.append([])
+            continuouss.append([])
+            for j in range(len(results[i])):
+                monobits[i].append(results[i][j][0])
+                pokers[i].append(results[i][j][1])
+                runs[i].append(results[i][j][2])
+                longruns[i].append(results[i][j][3])
+                continuouss[i].append(results[i][j][4])
+
+        for i in range(len(results)):
+            writer.writerow([paths[i], monobits[i], pokers[i], runs[i], longruns[i], continuouss[i]])
         csvfile.close()
 
     with open('results/fips_stats.csv', "w") as csvfile:
+        monobits = []
+        pokers = []
+        runs = []
+        longruns = []
         writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         writer.writerow(HEADER_fips)
-        for i in range(len(paths)):
-            monobit, poker, run, longrun = stats[i]
-            writer.writerow([paths[i], monobit, poker, run, longrun])
+        for i in range(len(stats)):
+            monobits.append([])
+            pokers.append([])
+            runs.append([])
+            longruns.append([])
+            for j in range(len(stats[i])):
+                try:
+                    monobits[i].append(stats[i][j][0])
+                    pokers[i].append(stats[i][j][1])
+                    runs[i].append(stats[i][j][2])
+                    longruns[i].append(stats[i][j][3])
+                except TypeError:
+                    pass
+
+        for i in range(len(results)):
+            writer.writerow([paths[i], monobits[i], pokers[i], runs[i], longruns[i]])
         csvfile.close()
 
 # merges all csvs passed in as a list of csv names (default filenames only atm)
