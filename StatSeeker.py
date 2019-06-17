@@ -24,6 +24,7 @@ def main():
             fs = os.stat(path)
 
             if fs.st_size >= 1024:
+                print(path)
                 file_names.append(path)
 
                 ent_results.append(ent(path))
