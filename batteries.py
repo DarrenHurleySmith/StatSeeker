@@ -19,20 +19,20 @@ def ent(path):
 
 
 # FIPS140 tests, called from the appropriate module
-def fips140(fn, ver, params):
+def fips140(fn, ver, p):
     res = []
     c = []
 
     fs = os.stat(fn)
 
     with open(fn, 'rb') as seq:
+        params = p
 
         if fs.st_size/(2500*params) < 1:
             params = int(fs.st_size/2500)
-            print(params)
 
-        if params == 0:
-            return ['N', 'N', 'N', 'N', 'N'], [0, 0, 0, 0]
+        #if params == 0:
+        #    return ['N', 'N', 'N', 'N', 'N'], [0, 0, 0, 0]
 
         for i in range(params):
             stat = []
