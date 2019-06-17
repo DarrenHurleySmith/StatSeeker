@@ -1,5 +1,6 @@
 from ent import readdata, entropy, pearsonchisquare, correlation, poz, pochisq, monte_carlo
 from fips import monobits, poker, run, longruns, contrun
+import os
 
 
 # Ent (John Walker) tests called from the module developed by RSmith
@@ -19,14 +20,20 @@ def ent(path):
 def fips140(fn, ver, params):
     res = []
     c = []
+
+    fs = os.stat(fn)
+
     with open(fn, 'rb') as seq:
-        if seq.tell()/(2500*params) < 1:
+
+        if fs.st_size/(2500*params) < 1:
             params = int(seq.tell()/2500)
 
         for i in range(params):
             r = []
             stat = []
+
             s = seq.read(2500)
+
             rtmp, stattmp = monobits(s, ver)
             r.append(rtmp)
             stat.append(stattmp)
@@ -50,5 +57,4 @@ def fips140(fn, ver, params):
             res.append(r)
             c.append(stat)
 
-    print(res)
     return res, c

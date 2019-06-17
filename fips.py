@@ -124,7 +124,7 @@ def contrun(s, v):
     check = s[:16]
     comp = s[16:]
 
-    for i in range(len(comp)/16):
+    for i in range(int(len(comp)/16)):
         chunk = comp[i*16:(i*32)]
         if chunk == check:
             res = False
