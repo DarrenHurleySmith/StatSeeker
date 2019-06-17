@@ -1,5 +1,7 @@
 from ent import readdata, entropy, pearsonchisquare, correlation, poz, pochisq, monte_carlo
 from fips import monobits, poker, run, longruns, contrun
+from ais31 import test0, test5, test6a, test7, test8
+
 import os
 
 
@@ -61,3 +63,44 @@ def fips140(fn, ver, p):
             c.append(stat)
 
     return res, c
+
+
+# ais31 tests - borrows fips-1-140 mode tests from the fips battery for procedureA
+def ais31(fn):
+    c = []
+    t0 = 0
+    t1 = []
+    t2 = []
+    t3 = []
+    t4 = []
+    t5 = []
+    t6 = []
+    t7 = []
+    t8 = []
+
+    fs = os.stat(fn)
+
+    if fs.st_size > 9038216:
+        with open(fn, 'rb') as seq:
+            a = seq.read(1038216)
+            b = seq.read(8000000)
+    else:
+        return c
+
+
+    # procedureA
+    t0 = test0(a[:393216])
+
+    for i in range(0, 257):
+        x = 393216+(i*2500)
+        s = a[x:x+2500]
+        t1.append(monobits(s, 1))
+        t2.append(poker(s, 1))
+        t3.append(run(s, 1))
+        t4.append(longruns(s, 1))
+        t5.append(test5(s))
+
+    # procedureB
+
+    return c
+
