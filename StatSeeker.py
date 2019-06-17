@@ -24,6 +24,7 @@ def main(argv):
                 f.append(root+file)
                 e.append(ent(root+file))
 
+
     # print(f)
     # print(e)
     ent_csv(f, e)
