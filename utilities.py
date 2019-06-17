@@ -33,8 +33,16 @@ def fips_csv(paths, results, stats):
         writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         writer.writerow(HEADER_fips)
         for i in range(len(paths)):
-            print(results[i])
+            print(paths[i])
             monobit, poker, run, longrun, continuous = results[i]
+            writer.writerow([paths[i], monobit, poker, run, longrun, continuous])
+        csvfile.close()
+
+    with open('results/fips_stats.csv', "w") as csvfile:
+        writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        writer.writerow(HEADER_fips)
+        for i in range(len(paths)):
+            monobit, poker, run, longrun, continuous = stats[i]
             writer.writerow([paths[i], monobit, poker, run, longrun, continuous])
         csvfile.close()
 

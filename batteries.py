@@ -26,7 +26,8 @@ def fips140(fn, ver, params):
     with open(fn, 'rb') as seq:
 
         if fs.st_size/(2500*params) < 1:
-            params = int(seq.tell()/2500)
+            params = int(fs.st_size/2500)
+            print(params)
 
         for i in range(params):
             r = []
