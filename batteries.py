@@ -50,9 +50,8 @@ def fips140(fn, ver, params):
             r.append(rtmp)
             stat.append(stattmp)
 
-            rtmp, stattmp = contrun(s, ver)
+            rtmp = contrun(s, ver)
             r.append(rtmp)
-            stat.append(stattmp)
 
             res.append(r)
             c.append(stat)
