@@ -1,7 +1,7 @@
 import argparse
 import os
-from batteries import ent
-from utilities import dir_path, ent_csv
+from batteries import ent, fips140
+from utilities import dir_path, ent_csv, fips_csv
 
 
 def main():
@@ -15,17 +15,25 @@ def main():
 
     file_names = []
     ent_results = []
+    fips2results = []
+    fips2stats = []
+
     for root, dir, files in os.walk(args.path):
         for file in files:
             path = os.path.join(root, file)
             fs = os.stat(path)
+
             if fs.st_size >= 1024:
                 file_names.append(path)
+
                 ent_results.append(ent(path))
 
-    # print(file_names)
-    # print(ent_results)
+                r, c = fips140(path, 2, 100)
+                fips2results.append(r)
+                fips2stats.append(c)
+
     ent_csv(file_names, ent_results)
+    fips_csv(file_names, fips2results, fips2stats)
 
 
 if __name__ == '__main__':
