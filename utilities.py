@@ -3,6 +3,8 @@ import os
 
 HEADER_ENT = ['File name', 'Entropy', 'Chi-score', 'Serial Correlation', 'P-val Z', 'P-val Chi', 'Monte Carlo']
 HEADER_FIPS = ['File name', 'Monobit', 'Poker', 'Run', 'Long run', 'Continuous']
+FIPS_RESULTS_COUNT = len(HEADER_FIPS) - 1
+FIPS_STATS_COUNT = FIPS_RESULTS_COUNT - 1
 
 ENT_CSV_PATH = 'results/ent_results.csv'
 FIPS_RESULTS_CSV_PATH = 'results/fips_results.csv'
@@ -43,18 +45,13 @@ def aggregate_lists(data, index, num):
 
 # takes results  of fips140-2 and returns results csv
 def fips_csv(paths, results, stats):
+    no_of_files = len(paths)
     csv_results = []
     csv_stats = []
 
-    csv_results.append(aggregate_lists(results, 0, 5))
-    csv_results.append(aggregate_lists(results, 1, 5))
-    csv_results.append(aggregate_lists(results, 2, 5))
-    csv_results.append(aggregate_lists(results, 3, 5))
-
-    csv_stats.append(aggregate_lists(stats, 0, 4))
-    csv_stats.append(aggregate_lists(stats, 1, 4))
-    csv_stats.append(aggregate_lists(stats, 2, 4))
-    csv_stats.append(aggregate_lists(stats, 3, 4))
+    for i in range(no_of_files):
+        csv_results.append(aggregate_lists(results, i, FIPS_RESULTS_COUNT))
+        csv_stats.append(aggregate_lists(stats, i, FIPS_STATS_COUNT))
 
     with open(FIPS_RESULTS_CSV_PATH, 'w') as csvfile:
         writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
