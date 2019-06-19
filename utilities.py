@@ -1,8 +1,12 @@
 import csv
 import os
 
-HEADER_ent = ['File name', 'Entropy', 'Chi-score', 'Serial Correlation', 'P-val Z', 'P-val Chi', 'Monte Carlo']
-HEADER_fips = ['File name', 'Monobit', 'Poker', 'Run', 'Long run', 'Continuous']
+HEADER_ENT = ['File name', 'Entropy', 'Chi-score', 'Serial Correlation', 'P-val Z', 'P-val Chi', 'Monte Carlo']
+HEADER_FIPS = ['File name', 'Monobit', 'Poker', 'Run', 'Long run', 'Continuous']
+
+ENT_CSV_PATH = 'results/ent_results.csv'
+FIPS_RESULTS_CSV_PATH = 'results/fips_results.csv'
+FIPS_STATS_CSV_PATH = 'results/fips_stats.csv'
 
 
 def raiser(ex): raise ex
@@ -16,7 +20,7 @@ def dir_path(string):
 def ent_csv(paths, results):
     with open('results/ent_results.csv', "w") as csvfile:
         writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        writer.writerow(HEADER_ent)
+        writer.writerow(HEADER_ENT)
         for i in range(len(paths)):
             entropy, chi_score, serial_correlation, p_val_z, p_val_chi, monte_carlo = results[i]
             writer.writerow([paths[i], entropy, chi_score, serial_correlation, p_val_z, p_val_chi, monte_carlo])
@@ -27,57 +31,43 @@ def ent_csv(paths, results):
 def ais_csv(r):
     return c
 
+
+def aggregate_lists(data, index, num):
+    aggregated = []
+    for i in range(num):
+        aggregated.append([])
+        for j in range(len(data[index])):
+            aggregated[i].append(data[index][j][i])
+    return aggregated
+
+
 # takes results  of fips140-2 and returns results csv
 def fips_csv(paths, results, stats):
-    with open('results/fips_results.csv', 'w') as csvfile:
-        monobits = []
-        pokers = []
-        runs = []
-        longruns = []
-        continuouss = []
+    csv_results = []
+    csv_stats = []
+
+    csv_results.append(aggregate_lists(results, 0, 5))
+    csv_results.append(aggregate_lists(results, 1, 5))
+    csv_results.append(aggregate_lists(results, 2, 5))
+    csv_results.append(aggregate_lists(results, 3, 5))
+
+    csv_stats.append(aggregate_lists(stats, 0, 4))
+    csv_stats.append(aggregate_lists(stats, 1, 4))
+    csv_stats.append(aggregate_lists(stats, 2, 4))
+    csv_stats.append(aggregate_lists(stats, 3, 4))
+
+    with open(FIPS_RESULTS_CSV_PATH, 'w') as csvfile:
         writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        writer.writerow(HEADER_fips)
-        for i in range(len(results)):
-            monobits.append([])
-            pokers.append([])
-            runs.append([])
-            longruns.append([])
-            continuouss.append([])
-            for j in range(len(results[i])):
-                monobits[i].append(results[i][j][0])
-                pokers[i].append(results[i][j][1])
-                runs[i].append(results[i][j][2])
-                longruns[i].append(results[i][j][3])
-                continuouss[i].append(results[i][j][4])
+        writer.writerow(HEADER_FIPS)
+        for i in range(len(paths)):
+            writer.writerow([paths[i], csv_results[i][0], csv_results[i][1], csv_results[i][2], csv_results[i][3], csv_results[i][4]])
 
-        for i in range(len(results)):
-            writer.writerow([paths[i], monobits[i], pokers[i], runs[i], longruns[i], continuouss[i]])
-        csvfile.close()
-
-    with open('results/fips_stats.csv', "w") as csvfile:
-        monobits = []
-        pokers = []
-        runs = []
-        longruns = []
+    with open(FIPS_STATS_CSV_PATH, 'w') as csvfile:
         writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        writer.writerow(HEADER_fips)
-        for i in range(len(stats)):
-            monobits.append([])
-            pokers.append([])
-            runs.append([])
-            longruns.append([])
-            for j in range(len(stats[i])):
-                try:
-                    monobits[i].append(stats[i][j][0])
-                    pokers[i].append(stats[i][j][1])
-                    runs[i].append(stats[i][j][2])
-                    longruns[i].append(stats[i][j][3])
-                except TypeError:
-                    pass
+        writer.writerow(HEADER_FIPS)
+        for i in range(len(paths)):
+            writer.writerow([paths[i], csv_stats[i][0], csv_stats[i][1], csv_stats[i][2], csv_stats[i][3]])
 
-        for i in range(len(results)):
-            writer.writerow([paths[i], monobits[i], pokers[i], runs[i], longruns[i]])
-        csvfile.close()
 
 # merges all csvs passed in as a list of csv names (default filenames only atm)
 # returns single csv with individual files joined on file names with concatenated result columns
