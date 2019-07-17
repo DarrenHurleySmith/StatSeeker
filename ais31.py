@@ -21,6 +21,7 @@ def test0(s):
 
 
 # auto-correlation test
+# this test needs rewriting - sourcem aterial was incorrect
 def test5(s):
     t = []
     b = BitArray(s)

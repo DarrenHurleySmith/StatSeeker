@@ -1,6 +1,8 @@
 from ent import readdata, entropy, pearsonchisquare, correlation, poz, pochisq, monte_carlo
 from fips import monobits, poker, run, longruns, contrun
 from ais31 import test0, test5, test6a, test7, test8
+from tests.base import BaseTestCaseMixin
+import sp80022suite
 
 import os
 
@@ -59,7 +61,7 @@ def fips140(fn, ver, p):
             res.append(r)
             c.append(stat)
 
-    return res, c
+    return res, c, params
 
 
 # ais31 tests - borrows fips-1-140 mode tests from the fips battery for procedureA
@@ -81,7 +83,7 @@ def ais31(fn):
             a = seq.read(1038216)
             b = seq.read(8000000)
     else:
-        return [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        return ['Nan', 'Nan', 'Nan', 'Nan', 'Nan', 'Nan', 'Nan', 'Nan', 'Nan']
 
     # procedureA
     t0 = test0(a[:393216])
@@ -93,7 +95,8 @@ def ais31(fn):
         t2.append(poker(s, 1))
         t3.append(run(s, 1))
         t4.append(longruns(s, 1))
-        t5.append(test5(s))
+        t5.append('NA')
+        #t5.append(test5(s))
 
     # procedureB
     t6 = test6a(b[:12500])
@@ -102,3 +105,25 @@ def ais31(fn):
 
     return [t0, t1, t2, t3, t4, t5, t6, t7, t8]
 
+def sp80022(fn):
+    p = []
+    base = BaseTestCaseMixin
+    with open(fn, 'rb') as seq:
+        p.append(sp80022suite.approximate_entropy(2, seq.read(100000)))
+        p.append(sp80022suite.block_frequency(3, seq.read(100000)))
+        p.append(sp80022suite.cumulative_sums(seq.read(100000)))
+        p.append(sp80022suite.discrete_fourier_transform(seq.read(100000)))
+        p.append(sp80022suite.frequency(seq.read(100000)))
+        p.append(sp80022suite.linear_complexity(1000, seq.read(100000)))
+        p.append(sp80022suite.longest_run_of_ones(seq.read(100000)))
+        #p.append(sp80022suite.non_overlapping_template_matchings(9, seq.read()))
+        #p.append(sp80022suite.overlapping_template_matchings(9, seq.read(100000)))
+        #p.append(sp80022suite.random_excursions(seq.read()))
+        #p.append(sp80022suite.random_excursions_variant(seq.read()))
+        p.append(sp80022suite.rank(seq.read()))
+        p.append(sp80022suite.runs(seq.read()))
+        p.append(sp80022suite.serial(2, seq.read()))
+        p.append(sp80022suite.universal(seq.read()))
+
+
+    return p

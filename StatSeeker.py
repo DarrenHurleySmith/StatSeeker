@@ -1,7 +1,7 @@
 import argparse
 import os
-from batteries import ent, fips140, ais31
-from utilities import dir_path, ent_csv, fips_csv
+from batteries import ent, fips140, ais31, sp80022
+from utilities import dir_path, init_csv, ent_csv, fips_csv, ais_csv, sp80022_csv
 
 
 def main():
@@ -14,30 +14,44 @@ def main():
     args = opts.parse_args()
 
     file_names = []
-    ent_results = []
-    fips2results = []
-    fips2stats = []
+    #ent_results = []
+    #fips2results = []
+    #fips2stats = []
+    #ais31results = []
+
+    init_csv()
 
     for root, dir, files in os.walk(args.path):
         for file in files:
             path = os.path.join(root, file)
             fs = os.stat(path)
 
+            print(path)
+
             if fs.st_size >= 1024:
                 file_names.append(path)
 
-                ent_results.append(ent(path))
+                ent_results = ent(path)
+                ent_csv(path, ent_results)
+                print('ent')
 
-                r, c = fips140(path, 2, 100)
-                fips2results.append(r)
-                fips2stats.append(c)
+                r, c, i = fips140(path, 2, 1000)
+                fips2results = r
+                fips2stats = c
+                fips_csv(path, fips2results, fips2stats, i)
+                print('fips2')
 
-                c = ais31(path)
-                print(c)
+                # ais31 disabled until autocorrelation test can be fixed and optimisations made
+                ais31results = ais31(path)
+                if 'Nan' not in ais31results:
+                    ais_csv(path, ais31results)
+                print('ais31')
 
-    ent_csv(file_names, ent_results)
-    fips_csv(file_names, fips2results, fips2stats)
+                os.system('sudo bash ./sts_testscript.bash ' + str(path) + ' ' + str(1024000) + ' > /dev/null')
+                sp80022_csv(path, 'sts-2.1.2/experiments/AlgorithmTesting/finalAnalysisReport.txt')
+                print('sp800-22')
 
+                #add sp800-90B
 
 if __name__ == '__main__':
     main()
