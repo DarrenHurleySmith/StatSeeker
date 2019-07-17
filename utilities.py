@@ -9,8 +9,6 @@ HEADER_sp80022 = ['File name', 'Frequency', 'Block Frequency', 'Cumulative Sums'
                   'Random Excursions', 'Random Excursions Variant', 'Serial', 'Linear Complexity']
 
 
-def raiser(ex): raise ex
-
 def init_csv():
     with open('results/ent_results.csv', "w") as csvfile:
         writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
@@ -40,7 +38,6 @@ def dir_path(string):
 def ent_csv(path, results):
     with open('results/ent_results.csv', "a") as csvfile:
         writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        #for i in range(len(paths)):
         entropy, chi_score, serial_correlation, p_val_z, p_val_chi, monte_carlo = results
         writer.writerow([path, entropy, chi_score, serial_correlation, p_val_z, p_val_chi, monte_carlo])
         csvfile.close()
@@ -50,10 +47,16 @@ def ent_csv(path, results):
 def ais_csv(path, r):
     with open('results/ais31_stats.csv', 'a') as f:
         writer = csv.writer(f, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        #for i in range(len(r)):
         writer.writerow([path, r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7], r[8]])
 
-# takes results  of fips140-2 and returns results csv
+
+def aggregate_lists(data, index, num):
+    aggregated = []
+    for i in range(num):
+        aggregated.append([])
+        for j in range(len(data[index])):
+            aggregated[i].append(data[index][j][i])
+    return aggregated
 
 
 def fips_csv(path, results, stats, it):
@@ -65,7 +68,6 @@ def fips_csv(path, results, stats, it):
         continuous = []
         writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         for i in range(len(results)):
-            #print(results[i])
             monobits.append(results[i][0])
             pokers.append(results[i][1])
             runs.append(results[i][2])
@@ -89,7 +91,6 @@ def fips_csv(path, results, stats, it):
             longruns.append(stats[i][3])
             #cont.append(results[i][4])
 
-        #for i in range(len(stats)):
         writer.writerow([path, it, monobits, pokers, runs, longruns])
         csvfile.close()
 
