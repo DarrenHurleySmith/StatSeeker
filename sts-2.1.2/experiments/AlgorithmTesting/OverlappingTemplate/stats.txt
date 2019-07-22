@@ -12,7 +12,7 @@
 		   F R E Q U E N C Y
 		  0   1   2   3   4 >=5   Chi^2   P-value  Assignment
 		-----------------------------------------------
-		 20  13   6   4   1   4  5.243456 0.386897 SUCCESS
+		 13   7  13   2   6   7  11.460291 0.042980 SUCCESS
 
 		    OVERLAPPING TEMPLATE OF ALL ONES TEST
 		-----------------------------------------------
@@ -28,7 +28,7 @@
 		   F R E Q U E N C Y
 		  0   1   2   3   4 >=5   Chi^2   P-value  Assignment
 		-----------------------------------------------
-		 22  12   6   3   3   2  6.310988 0.277124 SUCCESS
+		 14   9   7   4   3  11  3.622138 0.604992 SUCCESS
 
 		    OVERLAPPING TEMPLATE OF ALL ONES TEST
 		-----------------------------------------------
@@ -44,7 +44,7 @@
 		   F R E Q U E N C Y
 		  0   1   2   3   4 >=5   Chi^2   P-value  Assignment
 		-----------------------------------------------
-		 15  12   5   3   6   7  4.690724 0.454778 SUCCESS
+		 14  11   4  10   4   5  8.599606 0.126140 SUCCESS
 
 		    OVERLAPPING TEMPLATE OF ALL ONES TEST
 		-----------------------------------------------
@@ -60,7 +60,7 @@
 		   F R E Q U E N C Y
 		  0   1   2   3   4 >=5   Chi^2   P-value  Assignment
 		-----------------------------------------------
-		 18   5  10   3   7   5  8.463071 0.132494 SUCCESS
+		 23   4   7   3   3   8  5.211969 0.390563 SUCCESS
 
 		    OVERLAPPING TEMPLATE OF ALL ONES TEST
 		-----------------------------------------------
@@ -76,7 +76,7 @@
 		   F R E Q U E N C Y
 		  0   1   2   3   4 >=5   Chi^2   P-value  Assignment
 		-----------------------------------------------
-		 20   6   7   5   2   8  2.027929 0.845267 SUCCESS
+		 25   7   5   1   4   6  7.027047 0.218637 SUCCESS
 
 		    OVERLAPPING TEMPLATE OF ALL ONES TEST
 		-----------------------------------------------
@@ -92,7 +92,7 @@
 		   F R E Q U E N C Y
 		  0   1   2   3   4 >=5   Chi^2   P-value  Assignment
 		-----------------------------------------------
-		 14   6   7   6   4  11  4.792589 0.441714 SUCCESS
+		 20   8   6   4   3   7  0.621914 0.986978 SUCCESS
 
 		    OVERLAPPING TEMPLATE OF ALL ONES TEST
 		-----------------------------------------------
@@ -108,7 +108,7 @@
 		   F R E Q U E N C Y
 		  0   1   2   3   4 >=5   Chi^2   P-value  Assignment
 		-----------------------------------------------
-		 20  10   4   4   2   8  2.411277 0.789794 SUCCESS
+		 13  12   5   6   6   6  5.239564 0.387349 SUCCESS
 
 		    OVERLAPPING TEMPLATE OF ALL ONES TEST
 		-----------------------------------------------
@@ -124,7 +124,7 @@
 		   F R E Q U E N C Y
 		  0   1   2   3   4 >=5   Chi^2   P-value  Assignment
 		-----------------------------------------------
-		  8   8  10   8   7   7  13.211432 0.021476 SUCCESS
+		 19   8   6   5   3   7  0.295197 0.997732 SUCCESS
 
 		    OVERLAPPING TEMPLATE OF ALL ONES TEST
 		-----------------------------------------------
@@ -140,7 +140,7 @@
 		   F R E Q U E N C Y
 		  0   1   2   3   4 >=5   Chi^2   P-value  Assignment
 		-----------------------------------------------
-		 23   9   5   3   0   8  6.268561 0.280957 SUCCESS
+		 18  13   8   3   1   5  5.037291 0.411346 SUCCESS
 
 		    OVERLAPPING TEMPLATE OF ALL ONES TEST
 		-----------------------------------------------
@@ -156,5 +156,5 @@
 		   F R E Q U E N C Y
 		  0   1   2   3   4 >=5   Chi^2   P-value  Assignment
 		-----------------------------------------------
-		 14  10   4   7   5   8  4.014605 0.547315 SUCCESS
+		 18   6   4   5   5  10  4.328373 0.503169 SUCCESS
 

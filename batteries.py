@@ -1,8 +1,6 @@
 from ent import readdata, entropy, pearsonchisquare, correlation, poz, pochisq, monte_carlo
 from fips import monobits, poker, run, longruns, contrun
 from ais31 import test0, test5, test6a, test7, test8
-from tests.base import BaseTestCaseMixin
-import sp80022suite
 
 import os
 
@@ -104,26 +102,3 @@ def ais31(fn):
     t8 = test8(b[12500+count:])
 
     return [t0, t1, t2, t3, t4, t5, t6, t7, t8]
-
-def sp80022(fn):
-    p = []
-    base = BaseTestCaseMixin
-    with open(fn, 'rb') as seq:
-        p.append(sp80022suite.approximate_entropy(2, seq.read(100000)))
-        p.append(sp80022suite.block_frequency(3, seq.read(100000)))
-        p.append(sp80022suite.cumulative_sums(seq.read(100000)))
-        p.append(sp80022suite.discrete_fourier_transform(seq.read(100000)))
-        p.append(sp80022suite.frequency(seq.read(100000)))
-        p.append(sp80022suite.linear_complexity(1000, seq.read(100000)))
-        p.append(sp80022suite.longest_run_of_ones(seq.read(100000)))
-        #p.append(sp80022suite.non_overlapping_template_matchings(9, seq.read()))
-        #p.append(sp80022suite.overlapping_template_matchings(9, seq.read(100000)))
-        #p.append(sp80022suite.random_excursions(seq.read()))
-        #p.append(sp80022suite.random_excursions_variant(seq.read()))
-        p.append(sp80022suite.rank(seq.read()))
-        p.append(sp80022suite.runs(seq.read()))
-        p.append(sp80022suite.serial(2, seq.read()))
-        p.append(sp80022suite.universal(seq.read()))
-
-
-    return p

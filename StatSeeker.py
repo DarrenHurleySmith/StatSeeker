@@ -26,9 +26,12 @@ def main():
             path = os.path.join(root, file)
             fs = os.stat(path)
 
+            size = 50000  # defeault 1024000
+            num_runs = 10  # ideally >10, more is better
+
             print(path)
 
-            if fs.st_size >= 1024:
+            if fs.st_size >= (size*num_runs)/8:
                 file_names.append(path)
 
                 file_info(path, fs.st_size)
@@ -49,10 +52,6 @@ def main():
                 #    ais_csv(path, ais31results)
                 #print('ais31')
 
-                size = 50000  #defeault 1024000
-                num_runs = 10  #ideally >10, more is better
-
-
                 if int(fs.st_size/(size/8)) < 10:
                     num_runs = int(fs.st_size/(size/8))
 
@@ -62,7 +61,7 @@ def main():
                 sp80022_csv(path, 'sts-2.1.2/experiments/AlgorithmTesting/finalAnalysisReport.txt')
                 print('sp800-22')
 
-                #add sp800-90B
+                #add sp800-90B - figure out if it is possible to reduce them inimum file size
 
     #merge csvs
     csv_merge()

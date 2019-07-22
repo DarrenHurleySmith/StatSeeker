@@ -2,7 +2,7 @@
 		--------------------------------------------
 		COMPUTATIONAL INFORMATION:
 		--------------------------------------------
-		(a) Number Of Cycles (J) = 327
+		(a) Number Of Cycles (J) = 33
 		(b) Sequence Length (n)  = 50000
 		--------------------------------------------
 
@@ -14,7 +14,7 @@
 		--------------------------------------------
 		COMPUTATIONAL INFORMATION:
 		--------------------------------------------
-		(a) Number Of Cycles (J) = 334
+		(a) Number Of Cycles (J) = 364
 		(b) Sequence Length (n)  = 50000
 		--------------------------------------------
 
@@ -26,7 +26,7 @@
 		--------------------------------------------
 		COMPUTATIONAL INFORMATION:
 		--------------------------------------------
-		(a) Number Of Cycles (J) = 253
+		(a) Number Of Cycles (J) = 120
 		(b) Sequence Length (n)  = 50000
 		--------------------------------------------
 
@@ -38,7 +38,19 @@
 		--------------------------------------------
 		COMPUTATIONAL INFORMATION:
 		--------------------------------------------
-		(a) Number Of Cycles (J) = 181
+		(a) Number Of Cycles (J) = 192
+		(b) Sequence Length (n)  = 50000
+		--------------------------------------------
+
+		WARNING:  TEST NOT APPLICABLE.  THERE ARE AN
+			  INSUFFICIENT NUMBER OF CYCLES.
+		---------------------------------------------
+
+			RANDOM EXCURSIONS VARIANT TEST
+		--------------------------------------------
+		COMPUTATIONAL INFORMATION:
+		--------------------------------------------
+		(a) Number Of Cycles (J) = 145
 		(b) Sequence Length (n)  = 50000
 		--------------------------------------------
 
@@ -62,7 +74,7 @@
 		--------------------------------------------
 		COMPUTATIONAL INFORMATION:
 		--------------------------------------------
-		(a) Number Of Cycles (J) = 99
+		(a) Number Of Cycles (J) = 140
 		(b) Sequence Length (n)  = 50000
 		--------------------------------------------
 
@@ -74,7 +86,7 @@
 		--------------------------------------------
 		COMPUTATIONAL INFORMATION:
 		--------------------------------------------
-		(a) Number Of Cycles (J) = 129
+		(a) Number Of Cycles (J) = 117
 		(b) Sequence Length (n)  = 50000
 		--------------------------------------------
 
@@ -86,7 +98,7 @@
 		--------------------------------------------
 		COMPUTATIONAL INFORMATION:
 		--------------------------------------------
-		(a) Number Of Cycles (J) = 111
+		(a) Number Of Cycles (J) = 5
 		(b) Sequence Length (n)  = 50000
 		--------------------------------------------
 
@@ -98,19 +110,7 @@
 		--------------------------------------------
 		COMPUTATIONAL INFORMATION:
 		--------------------------------------------
-		(a) Number Of Cycles (J) = 210
-		(b) Sequence Length (n)  = 50000
-		--------------------------------------------
-
-		WARNING:  TEST NOT APPLICABLE.  THERE ARE AN
-			  INSUFFICIENT NUMBER OF CYCLES.
-		---------------------------------------------
-
-			RANDOM EXCURSIONS VARIANT TEST
-		--------------------------------------------
-		COMPUTATIONAL INFORMATION:
-		--------------------------------------------
-		(a) Number Of Cycles (J) = 170
+		(a) Number Of Cycles (J) = 344
 		(b) Sequence Length (n)  = 50000
 		--------------------------------------------
 

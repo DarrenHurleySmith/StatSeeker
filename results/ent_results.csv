@@ -1,0 +1,2 @@
+File name,Entropy,Chi-score,Serial Correlation,P-val Z,P-val Chi,Monte Carlo
+../test/urandom1-1MB.bin,7.999806677090529,281.0458984375,-0.00024953252143407697,1,0.9999999999984466,3.1448026458841167
