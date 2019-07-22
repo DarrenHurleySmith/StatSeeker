@@ -1,5 +1,6 @@
 import csv
 import os
+import pandas as pd
 
 HEADER_ent = ['File name', 'Entropy', 'Chi-score', 'Serial Correlation', 'P-val Z', 'P-val Chi', 'Monte Carlo']
 HEADER_fips = ['File name', 'Iterations', 'Monobit', 'Poker', 'Run', 'Long run', 'Continuous']
@@ -7,9 +8,14 @@ HEADER_ais31 = ['File name', 'T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6a', 'T6b', '
 HEADER_sp80022 = ['File name', 'Frequency', 'Block Frequency', 'Cumulative Sums', 'Runs', 'Longest Run', 'Rank', 'FFT',
                   'NonOverlapping Template', 'Overlapping Template', 'Universal', 'Approximate Entropy',
                   'Random Excursions', 'Random Excursions Variant', 'Serial', 'Linear Complexity']
+HEADER_fileinfo = ['File name', 'size']
 
 
 def init_csv():
+    with open('results/fileinfo.csv', 'w') as csvfile:
+        writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        writer.writerow(HEADER_fileinfo)
+
     with open('results/ent_results.csv', "w") as csvfile:
         writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         writer.writerow(HEADER_ent)
@@ -32,6 +38,12 @@ def init_csv():
 
 def dir_path(string):
     return string if os.path.isdir(string) else raiser(NotADirectoryError(string))
+
+
+def file_info(path, size):
+    with open('results/fileinfo.csv', 'a') as csvfile:
+        writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        writer.writerow([path, size])
 
 
 # take results of ent and returns csv of results
@@ -100,8 +112,11 @@ def sp80022_csv(path, res):
         readfile = results.readlines()[7:]
         for line in readfile:
             temp.append(line.split()[10:])
+            #print(temp)
         with open('results/sp80022_stats.csv', 'a') as out:
             writer = csv.writer(out, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            # p-values in x[0], proportion passed in x[1]
+            # * indicates a failure
             writer.writerow([path, [[x[0] for x in temp if 'Frequency' in x],
                              [x[1] for x in temp if 'Frequency' in x]],
                              [[x[0] for x in temp if 'BlockFrequency' in x],
@@ -137,5 +152,19 @@ def sp80022_csv(path, res):
 # returns single csv with individual files joined on file names with concatenated result columns
 
 
-def csv_merge(a):
-    return c
+def csv_merge():
+    x = pd.read_csv('results/fileinfo.csv')
+    a = pd.read_csv('results/ent_results.csv')
+    b = pd.read_csv('results/fips_stats.csv')
+    c = pd.read_csv('results/sp80022_stats.csv')
+
+    a = a.dropna(axis=1)
+    b = b.dropna(axis=1)
+    c = c.dropna(axis=1)
+
+    merged = x.merge(a, on='File name')
+    merged = merged.merge(b, on='File name')
+    merged = merged.merge(c, on='File name')
+
+    merged.to_csv("results/statistics.csv", index=False)
+

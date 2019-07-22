@@ -1,7 +1,7 @@
 import argparse
 import os
-from batteries import ent, fips140, ais31, sp80022
-from utilities import dir_path, init_csv, ent_csv, fips_csv, ais_csv, sp80022_csv
+from batteries import ent, fips140, ais31
+from utilities import dir_path, init_csv, ent_csv, fips_csv, ais_csv, sp80022_csv, file_info, csv_merge
 
 
 def main():
@@ -31,6 +31,8 @@ def main():
             if fs.st_size >= 1024:
                 file_names.append(path)
 
+                file_info(path, fs.st_size)
+
                 ent_results = ent(path)
                 ent_csv(path, ent_results)
                 print('ent')
@@ -42,16 +44,28 @@ def main():
                 print('fips2')
 
                 # ais31 disabled until autocorrelation test can be fixed and optimisations made
-                ais31results = ais31(path)
-                if 'Nan' not in ais31results:
-                    ais_csv(path, ais31results)
-                print('ais31')
+                #ais31results = ais31(path)
+                #if 'Nan' not in ais31results:
+                #    ais_csv(path, ais31results)
+                #print('ais31')
 
-                os.system('sudo bash ./sts_testscript.bash ' + str(path) + ' ' + str(1024000) + ' > /dev/null')
+                size = 50000  #defeault 1024000
+                num_runs = 10  #ideally >10, more is better
+
+
+                if int(fs.st_size/(size/8)) < 10:
+                    num_runs = int(fs.st_size/(size/8))
+
+                print(num_runs)
+
+                os.system('sudo bash ./sts_testscript.bash ' + str(path) + ' ' + str(size) + ' ' + str(num_runs) + ' > /dev/null')
                 sp80022_csv(path, 'sts-2.1.2/experiments/AlgorithmTesting/finalAnalysisReport.txt')
                 print('sp800-22')
 
                 #add sp800-90B
+
+    #merge csvs
+    csv_merge()
 
 if __name__ == '__main__':
     main()
