@@ -1,6 +1,8 @@
 from ent import readdata, entropy, pearsonchisquare, correlation, poz, pochisq, monte_carlo
 from fips import monobits, poker, run, longruns, contrun
 from ais31 import test0, test5, test6a, test7, test8
+from scipy import stats
+import numpy
 
 import os
 
@@ -11,8 +13,8 @@ def ent(path):
     res_entropy = entropy(cnts)
     res_chi_score = pearsonchisquare(cnts)
     res_serial_correlation = correlation(data)
-    res_p_val_z = poz(res_chi_score)
-    res_p_val_chi = pochisq(res_p_val_z*100-50)
+    res_p_val_chi = pochisq(res_chi_score)
+    res_p_val_z = poz(res_chi_score * 100 - 50)
     res_monte_carlo = monte_carlo(data)
 
     return res_entropy, res_chi_score, res_serial_correlation, res_p_val_z, res_p_val_chi, res_monte_carlo
