@@ -2,7 +2,7 @@ import csv
 import os
 import pandas as pd
 
-HEADER_ent = ['File name', 'Entropy', 'Chi-score', 'Serial Correlation', 'P-val Z', 'P-val Chi', 'Monte Carlo']
+HEADER_ent = ['File name', 'Entropy', 'Chi-score', 'Serial Correlation', 'P-val Chi', 'Monte Carlo']
 HEADER_fips = ['File name', 'Iterations', 'Monobit', 'Poker', 'Run', 'Long run', 'Continuous']
 HEADER_ais31 = ['File name', 'T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6a', 'T6b', 'T7a_1', 'T7a_2', 'T7b_1', 'T7b_2', 'T7b_3', 'T7b_4', 'T8']
 HEADER_sp80022 = ['File name', 'Frequency', 'Block Frequency', 'Cumulative Sums', 'Runs', 'Longest Run', 'Rank', 'FFT',
@@ -50,8 +50,8 @@ def file_info(path, size):
 def ent_csv(path, results):
     with open('results/ent_results.csv', "a") as csvfile:
         writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        entropy, chi_score, serial_correlation, p_val_z, p_val_chi, monte_carlo = results
-        writer.writerow([path, entropy, chi_score, serial_correlation, p_val_z, p_val_chi, monte_carlo])
+        entropy, chi_score, serial_correlation, p_val_chi, monte_carlo = results
+        writer.writerow([path, entropy, chi_score, serial_correlation, p_val_chi, monte_carlo])
         csvfile.close()
 
 
