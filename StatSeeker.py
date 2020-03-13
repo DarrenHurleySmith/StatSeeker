@@ -1,8 +1,7 @@
 import argparse
 import os
 from batteries import ent, fips140, ais31
-from utilities import dir_path, init_csv, ent_csv, fips_csv, ais_csv, sp80022_csv, file_info, csv_merge
-
+from utilities import dir_path, init_csv, ent_csv, fips_csv, ais_csv, sp80022_csv, file_info, csv_merge, devectorise
 
 def main():
     opts = argparse.ArgumentParser(prog='StatSeeker', description=__doc__)
@@ -10,8 +9,10 @@ def main():
     opts.add_argument('-a', action='store_true', help="run all test batteries")
     opts.add_argument('-v', '--version', action='version', version="0.1")
     opts.add_argument("--path", type=dir_path, help="one or more files to process")
+    opts.add_argument('-d', action='store_true', help="devectorise statistics files")
 
     args = opts.parse_args()
+    print(args)
 
     file_names = []
     #ent_results = []
@@ -19,52 +20,58 @@ def main():
     #fips2stats = []
     #ais31results = []
 
-    init_csv()
+    if args.path is not '':
 
-    for root, dir, files in os.walk(args.path):
-        for file in files:
-            path = os.path.join(root, file)
-            fs = os.stat(path)
+        if args.a == True:
+            init_csv()
 
-            size = 50000  # defeault 1024000
-            num_runs = 10  # ideally >10, more is better
+            for root, dir, files in os.walk(args.path):
+                for file in files:
+                    path = os.path.join(root, file)
+                    fs = os.stat(path)
 
-            print(path)
+                    size = 50000  # defeault 1024000
+                    num_runs = 10  # ideally >10, more is better
 
-            if fs.st_size >= (size*num_runs)/8:
-                file_names.append(path)
+                    print(path)
 
-                file_info(path, fs.st_size)
+                    if fs.st_size >= (size*num_runs)/8:
+                        file_names.append(path)
 
-                ent_results = ent(path)
-                ent_csv(path, ent_results)
-                print('ent')
+                        file_info(path, fs.st_size)
 
-                r, c, i = fips140(path, 2, 1000)
-                fips2results = r
-                fips2stats = c
-                fips_csv(path, fips2results, fips2stats, i)
-                print('fips2')
+                        ent_results = ent(path)
+                        ent_csv(path, ent_results)
+                        print('ent')
 
-                # ais31 disabled until autocorrelation test can be fixed and optimisations made
-                #ais31results = ais31(path)
-                #if 'Nan' not in ais31results:
-                #    ais_csv(path, ais31results)
-                #print('ais31')
+                        r, c, i = fips140(path, 2, 1000)
+                        fips2results = r
+                        fips2stats = c
+                        fips_csv(path, fips2results, fips2stats, i)
+                        print('fips2')
 
-                if int(fs.st_size/(size/8)) < 10:
-                    num_runs = int(fs.st_size/(size/8))
+                        # ais31 disabled until autocorrelation test can be fixed and optimisations made
+                        #ais31results = ais31(path)
+                        #if 'Nan' not in ais31results:
+                        #    ais_csv(path, ais31results)
+                        #print('ais31')
 
-                print(num_runs)
+                        if int(fs.st_size/(size/8)) < 10:
+                            num_runs = int(fs.st_size/(size/8))
 
-                os.system('sudo bash ./sts_testscript.bash ' + str(path) + ' ' + str(size) + ' ' + str(num_runs) + ' > /dev/null')
-                sp80022_csv(path, 'sts-2.1.2/experiments/AlgorithmTesting/finalAnalysisReport.txt')
-                print('sp800-22')
+                        print(num_runs)
 
-                #add sp800-90B - figure out if it is possible to reduce them inimum file size
+                        os.system('sudo bash ./sts_testscript.bash ' + str(path) + ' ' + str(size) + ' ' + str(num_runs) + ' > /dev/null')
+                        sp80022_csv(path, 'sts-2.1.2/experiments/AlgorithmTesting/finalAnalysisReport.txt')
+                        print('sp800-22')
 
-    #merge csvs
-    csv_merge()
+                        #add sp800-90B - figure out if it is possible to reduce the minimum file size
+
+            #merge csvs
+            csv_merge()
+
+        if args.d == True:
+            devectorise(args.path)
 
 if __name__ == '__main__':
     main()

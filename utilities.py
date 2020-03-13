@@ -1,6 +1,9 @@
 import csv
 import os
 import pandas as pd
+from scipy import stats
+import ast
+from fractions import Fraction
 
 HEADER_ent = ['File name', 'Entropy', 'Chi-score', 'Serial Correlation', 'P-val Chi', 'Monte Carlo']
 HEADER_fips = ['File name', 'Iterations', 'Monobit', 'Poker', 'Run', 'Long run', 'Continuous']
@@ -168,3 +171,101 @@ def csv_merge():
 
     merged.to_csv("results/statistics.csv", index=False)
 
+def devectorise(d):
+    out = []
+    header = []
+
+    # add header
+    header.append(HEADER_ent[0])
+    header.append('Size')
+
+    for item in HEADER_ent[1:-2]:
+        header.append(item)
+
+    header.append('P-val Z')
+
+    for item in HEADER_ent[-2:]:
+        header.append(item)
+
+    for item in HEADER_fips[1:-1]:
+        header.append(item)
+
+    for item in HEADER_sp80022[1:]:
+        header.append(item + '_pvalue')
+        header.append(item + '_proportion')
+
+    out.append(header)
+
+    with open(d+'fips_results.csv', 'r') as r:
+        rread = csv.reader(r, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        fips_res = list(rread)
+
+    with open(d+'statistics.csv', 'r') as s:
+        sread = csv.reader(s, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        all_stats = list(sread)
+
+    for i in range(1, len(all_stats)):
+        line = []
+
+        # add all elements which aren't already vectors
+        line.append(all_stats[i][0])
+
+        for item in all_stats[i][1:9]:
+            line.append(float(item))
+
+        # devectorise monobits
+        line.append(int(fips_res[i][2])/int(all_stats[i][8]))
+        # devectorise poker
+        line.append(int(fips_res[i][3]) / int(all_stats[i][8]))
+        # devectorise run
+        line.append(int(fips_res[i][4]) / int(all_stats[i][8]))
+        # devectorise long run
+        line.append(int(fips_res[i][4]) / int(all_stats[i][8]))
+        # devectorise continuous - to be added later
+        #line.append(int(fips_res[i][5]) / int(all_stats[i][8]))
+
+        # split all elements which are sp800-22 results into p-value and proportion results (max 28)
+        for item in all_stats[i][13:28]:
+            item = ast.literal_eval(item)
+            #print(item)
+            #unpacked vectorised sp800-22 test results
+            if type(item[0]) is list:
+                # check if results exist and use fisher's method to aggregate them
+                #print(item[0][0])
+                if item[0][0] != '----':
+                    if len(item[0]) > 1:
+                        agg_elem = []
+                        for elem in item[0]:
+                            agg_elem.append(float(elem))
+
+                        #print(stats.kstest(agg_elem, 'norm'))
+                        line.append(stats.combine_pvalues(agg_elem, method='fisher', weights=None)[1])
+
+                        #if stats.combine_pvalues(agg_elem, method='fisher', weights=None)[1] == 0:
+                            #print(item[0])
+
+                    #if not list of lists, just pull out the result and add to list
+                    else:
+                        line.append(item[0][0])
+                else:
+                    line.append('----')
+
+            #perform the same checks for the proportion tests
+            if type(item[1]) is list:
+                if '-' not in item[1][0]:
+                    for j in range(0, len(item[1])):
+                        if item[1][j] == '*':
+                            item[1][j] = '0/1'
+                    line.append(float(sum(Fraction(s) for s in item[1]))/len(item[1]))
+                #account for any test failures and show '*' where proportion tests fail
+                else:
+                    line.append('----')
+
+        #print(line)
+        out.append(line)
+
+        with open(d + 'statistics_devectorised.csv', 'w') as csvfile:
+            writer = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+
+            for line in out:
+                writer.writerow(line)
