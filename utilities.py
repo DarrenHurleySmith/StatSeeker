@@ -236,9 +236,11 @@ def devectorise(d):
                     if len(item[0]) > 1:
                         agg_elem = []
                         for elem in item[0]:
-                            agg_elem.append(float(elem))
+                            if float(elem) > 0:
+                                agg_elem.append(float(elem))
 
                         #print(stats.kstest(agg_elem, 'norm'))
+                        #print(len(agg_elem))
                         line.append(stats.combine_pvalues(agg_elem, method='fisher', weights=None)[1])
 
                         #if stats.combine_pvalues(agg_elem, method='fisher', weights=None)[1] == 0:
@@ -248,7 +250,7 @@ def devectorise(d):
                     else:
                         line.append(item[0][0])
                 else:
-                    line.append('----')
+                    line.append('')
 
             #perform the same checks for the proportion tests
             if type(item[1]) is list:
@@ -259,13 +261,13 @@ def devectorise(d):
                     line.append(float(sum(Fraction(s) for s in item[1]))/len(item[1]))
                 #account for any test failures and show '*' where proportion tests fail
                 else:
-                    line.append('----')
+                    line.append('')
 
         #print(line)
         out.append(line)
 
-        with open(d + 'statistics_devectorised.csv', 'w') as csvfile:
-            writer = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+    with open(d + 'statistics_devectorised.csv', 'w') as csvfile:
+        writer = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
 
-            for line in out:
-                writer.writerow(line)
+        for line in out:
+            writer.writerow(line)

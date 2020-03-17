@@ -12,7 +12,7 @@ def main():
     opts.add_argument('-d', action='store_true', help="devectorise statistics files")
 
     args = opts.parse_args()
-    print(args)
+    #print(args)
 
     file_names = []
     #ent_results = []
