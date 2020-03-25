@@ -171,6 +171,11 @@ def csv_merge():
 
     merged.to_csv("results/statistics.csv", index=False)
 
+#suppress scientific notation
+def supNot(x):
+    x = '{:.12f}'.format(float(x))
+    return x
+
 def devectorise(d):
     out = []
     header = []
@@ -211,16 +216,17 @@ def devectorise(d):
         line.append(all_stats[i][0])
 
         for item in all_stats[i][1:9]:
-            line.append(float(item))
+            #line.append(float(item))
+            line.append(supNot(item))
 
         # devectorise monobits
-        line.append(int(fips_res[i][2])/int(all_stats[i][8]))
+        line.append(supNot(int(fips_res[i][2])/int(all_stats[i][8])))
         # devectorise poker
-        line.append(int(fips_res[i][3]) / int(all_stats[i][8]))
+        line.append(supNot(int(fips_res[i][3]) / int(all_stats[i][8])))
         # devectorise run
-        line.append(int(fips_res[i][4]) / int(all_stats[i][8]))
+        line.append(supNot(int(fips_res[i][4]) / int(all_stats[i][8])))
         # devectorise long run
-        line.append(int(fips_res[i][4]) / int(all_stats[i][8]))
+        line.append(supNot(int(fips_res[i][4]) / int(all_stats[i][8])))
         # devectorise continuous - to be added later
         #line.append(int(fips_res[i][5]) / int(all_stats[i][8]))
 
@@ -241,14 +247,14 @@ def devectorise(d):
 
                         #print(stats.kstest(agg_elem, 'norm'))
                         #print(len(agg_elem))
-                        line.append(stats.combine_pvalues(agg_elem, method='fisher', weights=None)[1])
+                        line.append(supNot(stats.combine_pvalues(agg_elem, method='fisher', weights=None)[1]))
 
                         #if stats.combine_pvalues(agg_elem, method='fisher', weights=None)[1] == 0:
                             #print(item[0])
 
                     #if not list of lists, just pull out the result and add to list
                     else:
-                        line.append(item[0][0])
+                        line.append(supNot(item[0][0]))
                 else:
                     line.append('')
 
@@ -258,7 +264,7 @@ def devectorise(d):
                     for j in range(0, len(item[1])):
                         if item[1][j] == '*':
                             item[1][j] = '0/1'
-                    line.append(float(sum(Fraction(s) for s in item[1]))/len(item[1]))
+                    line.append(supNot(float(sum(Fraction(s) for s in item[1]))/len(item[1])))
                 #account for any test failures and show '*' where proportion tests fail
                 else:
                     line.append('')
